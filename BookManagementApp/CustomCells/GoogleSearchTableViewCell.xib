@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GoogleCell" rowHeight="223" id="KGk-i7-Jjw" customClass="GoogleSearchTableViewCell" customModule="ISC_BOOK" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="223"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="393" height="223"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="book" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6nU-aR-iTX">
+                        <rect key="frame" x="50" y="23.333333333333329" width="135" height="177.33333333333331"/>
+                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="180" id="4CZ-QU-NhD"/>
+                            <constraint firstAttribute="width" constant="135" id="NzD-PX-o2K"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHQ-j7-ksg">
+                        <rect key="frame" x="231" y="30" width="132" height="93"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YYYY/mm/dd" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vh-ij-9g0">
+                        <rect key="frame" x="231" y="168" width="100" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="1Vh-ij-9g0" firstAttribute="top" secondItem="UHQ-j7-ksg" secondAttribute="bottom" constant="45" id="8Et-Vi-yUj"/>
+                    <constraint firstItem="UHQ-j7-ksg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="30" id="SXk-lK-CIv"/>
+                    <constraint firstAttribute="bottom" secondItem="UHQ-j7-ksg" secondAttribute="bottom" constant="100" id="Str-e6-2rt"/>
+                    <constraint firstItem="UHQ-j7-ksg" firstAttribute="leading" secondItem="6nU-aR-iTX" secondAttribute="trailing" constant="46" id="Yyq-9E-9cO"/>
+                    <constraint firstItem="6nU-aR-iTX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="gSh-XL-Gcp"/>
+                    <constraint firstAttribute="trailing" secondItem="UHQ-j7-ksg" secondAttribute="trailing" constant="30" id="oFu-9p-Q7k"/>
+                    <constraint firstItem="6nU-aR-iTX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="22" id="qIW-i8-UAh"/>
+                    <constraint firstItem="1Vh-ij-9g0" firstAttribute="leading" secondItem="6nU-aR-iTX" secondAttribute="trailing" constant="46" id="uz3-dI-1Ne"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="bookDate" destination="1Vh-ij-9g0" id="1LB-DI-T2G"/>
+                <outlet property="bookImage" destination="6nU-aR-iTX" id="go3-rE-bx1"/>
+                <outlet property="bookTitle" destination="UHQ-j7-ksg" id="4dP-ME-zNV"/>
+            </connections>
+            <point key="canvasLocation" x="72.51908396946564" y="69.366197183098592"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="book" catalog="system" width="128" height="99"/>
+    </resources>
+</document>

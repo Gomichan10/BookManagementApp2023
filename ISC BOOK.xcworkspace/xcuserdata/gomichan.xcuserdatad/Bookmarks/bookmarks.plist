@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>top-level-items</key>
+	<array>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>Timestamp</key>
+					<string>723818730.882298</string>
+					<key>XcodeLocation</key>
+					<string>{"Selection":{"Editor":"Xcode3SigningEditor","Target":"ISC BOOK"}}</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>BookManagementApp/ISC BOOK.xcodeproj</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>Xcode3ProjectDocumentLocation</string>
+			</dict>
+			<key>title</key>
+			<string>Error: Signing for "ISC BOOK" requires a development team. Select a development team in the Signing &amp; Capabilities editor.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+	</array>
+</dict>
+</plist>
