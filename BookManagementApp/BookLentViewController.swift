@@ -21,6 +21,7 @@ class BookLentViewController: UIViewController {
     @IBOutlet weak var GenreText: UILabel!
     @IBOutlet weak var BookImage: UIImageView!
     @IBOutlet weak var LendButton: UIButton!
+    @IBOutlet weak var ReturnDate: UILabel!
     
     let uid = Auth.auth().currentUser?.uid
     let db = Firestore.firestore()
@@ -67,6 +68,8 @@ class BookLentViewController: UIViewController {
                 self.AuthorName.text = data["author"] as? String
                 self.GenreText.text = data["genre"] as? String
                 self.overviewText.text = data["overview"] as? String
+                let lendDate = data["lendDate"] as! Timestamp
+                self.ReturnDate.text = "返却期限：\(self.addingDate(date: lendDate.dateValue()))まで"
             }
         }
         
@@ -78,6 +81,15 @@ class BookLentViewController: UIViewController {
                 self.BookImage.image = UIImage(data: Data!)
             }
         }
+    }
+    
+    func addingDate(date:Date) -> String{
+        let addingdate = Calendar.current.date(byAdding: .month, value: 1, to: date)!
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "ja_JP")
+        df.dateStyle = .long
+        df.timeStyle = .none
+        return df.string(from: addingdate)
     }
     
     

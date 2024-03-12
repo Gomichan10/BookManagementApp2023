@@ -11,7 +11,6 @@ import FirebaseStorage
 import FirebaseFirestore
 import Alamofire
 import SwiftyJSON
-import Kingfisher
 
 class BookResultViewController: UIViewController {
     

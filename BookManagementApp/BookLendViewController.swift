@@ -107,7 +107,10 @@ class BookLendViewController: UIViewController {
     }
     
     func setName(){
-        db.collection("Book").document(documentID).updateData(["lend" :uid])
+        db.collection("Book").document(documentID).updateData([
+            "lend" :uid ?? "No ID",
+            "lendDate" :Timestamp(date: Date())
+            ])
     }
     
 

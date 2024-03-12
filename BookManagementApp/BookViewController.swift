@@ -15,9 +15,6 @@ class BookViewController: UIViewController,UICollectionViewDelegate,UICollection
     
     
 
-    
-    
-
     @IBOutlet weak var BookView: UICollectionView!
     
     @IBOutlet weak var itpasImage: UIImageView!
@@ -101,8 +98,6 @@ class BookViewController: UIViewController,UICollectionViewDelegate,UICollection
         print(documentCount)
     }
     
-    
-
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1

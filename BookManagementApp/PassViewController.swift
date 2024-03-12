@@ -17,7 +17,8 @@ class PassViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        passField.isSecureTextEntry = true
         setPassword()
         
     }

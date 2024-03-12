@@ -15,6 +15,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate,UITableVi
     
     @IBOutlet weak var ResultBookTable: UITableView!
     @IBOutlet weak var NoBookLabel: UILabel!
+    @IBOutlet weak var ResultCount: UILabel!
     
     
     var documents:[DocumentSnapshot] = []
@@ -47,7 +48,6 @@ class SearchResultViewController: UIViewController,UITableViewDelegate,UITableVi
         
         ResultBookTable.register(UINib(nibName: "ResultBookTableViewCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
         
-
     }
     
     
@@ -64,6 +64,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate,UITableVi
         cell.BookTitle.text = data?["title"] as? String
         cell.AuthorText.text = data?["author"] as? String
         cell.GenreText.text = data?["genre"] as? String
+        ResultCount.text = "\(documents.count)件"
         
         let gsReference = storage.reference(withPath: "gs://[BookApp].appspot.com/test/\(documentID).png")
         gsReference.getData(maxSize:  1 * 1024 * 1024) { Data, Error in
@@ -102,6 +103,7 @@ class SearchResultViewController: UIViewController,UITableViewDelegate,UITableVi
                     print(self.documents.count)
                     if documents.count == 0 {
                         self.NoBookLabel.text = "本が見つかりませんでした"
+                        self.NoBookLabel.tintColor = UIColor.black
                     }
                     self.ResultBookTable.reloadData()
                 }

@@ -14,7 +14,6 @@ class BookAddViewController: UIViewController,UIPickerViewDelegate,UIPickerViewD
     
     
     
-    
     @IBOutlet weak var BookTitleField: UITextField!
     @IBOutlet weak var BookGenreField: UITextField!
     @IBOutlet weak var BookAuthorField: UITextField!
@@ -40,7 +39,6 @@ class BookAddViewController: UIViewController,UIPickerViewDelegate,UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         Genres.append("")
         Genres.append("IoT")
         Genres.append("インフラ")
@@ -64,10 +62,8 @@ class BookAddViewController: UIViewController,UIPickerViewDelegate,UIPickerViewD
         
         BookImage.isUserInteractionEnabled = true
         BookImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
+        
     }
-    
-    
-    
     
     @objc func dismissKeyboard(){
         self.view.endEditing(true)
@@ -132,6 +128,7 @@ class BookAddViewController: UIViewController,UIPickerViewDelegate,UIPickerViewD
         }
         getDocumentID()
         dismiss(animated: true)
+        
     }
     
     func getDocumentID(){
