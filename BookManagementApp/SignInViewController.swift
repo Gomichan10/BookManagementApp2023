@@ -21,13 +21,6 @@ class SignInViewController: UIViewController {
         auth()
     }
     
-    
-    @IBAction func didTapSignButton(_ sender: Any) {
-    
-    }
-    
-    
-    
     private func auth(){
         guard let clientID = FirebaseApp.app()?.options.clientID else {return}
         let config = GIDConfiguration(clientID: clientID)
@@ -53,7 +46,5 @@ class SignInViewController: UIViewController {
             
         }
     }
-    
-
 
 }

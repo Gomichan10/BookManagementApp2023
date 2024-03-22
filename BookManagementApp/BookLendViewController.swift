@@ -18,8 +18,7 @@ class BookLendViewController: UIViewController {
     @IBOutlet weak var AuthorName: UILabel!
     @IBOutlet weak var GenreText: UILabel!
     @IBOutlet weak var overviewText: UILabel!
-    @IBOutlet weak var BookImage:
-    UIImageView!
+    @IBOutlet weak var BookImage: UIImageView!
     @IBOutlet weak var LendButton: UIButton!
     
     let db = Firestore.firestore()
@@ -31,7 +30,6 @@ class BookLendViewController: UIViewController {
     var documentID = ""
     var lendCheckBool = false
 
-    
     required init?(coder aDecoder: NSCoder) {
         self.reference = self.storage.reference()
         super.init(coder: aDecoder)
@@ -47,7 +45,6 @@ class BookLendViewController: UIViewController {
     @IBAction func BackButton(_ sender: Any) {
         dismiss(animated: true)
     }
-    
     
     @IBAction func LendButton(_ sender: Any) {
         if lendCheckBool == false{
@@ -113,6 +110,4 @@ class BookLendViewController: UIViewController {
             ])
     }
     
-
-
 }

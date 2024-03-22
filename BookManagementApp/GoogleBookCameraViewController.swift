@@ -134,8 +134,6 @@ class GoogleBookCameraViewController: UIViewController{
             print(error.localizedDescription)
         }
         
-        
-        
     }
     
     func checkDB(){

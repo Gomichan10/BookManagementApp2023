@@ -14,7 +14,7 @@ pod 'FirebaseUI/Storage'
 pod 'Alamofire', '~> 5.0'
 pod 'SwiftyJSON'
 pod 'GoogleSignIn'
-pod 'Kingfisher'
+pod 'SwiftyGif'
 
 
 end

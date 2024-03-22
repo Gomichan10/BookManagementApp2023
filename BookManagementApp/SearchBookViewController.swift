@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-class SearchBookViewController: UIViewController,UISearchBarDelegate {
+class SearchBookViewController: UIViewController {
     
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -31,7 +31,7 @@ class SearchBookViewController: UIViewController,UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar.tintColor = UIColor.black
+        searchBar.overrideUserInterfaceStyle = .light
     
         let tapInfrastructure = UITapGestureRecognizer(target: self, action: #selector(InfrastructureTapped))
         infrastructureImage.addGestureRecognizer(tapInfrastructure)
@@ -68,45 +68,33 @@ class SearchBookViewController: UIViewController,UISearchBarDelegate {
     }
     
     @objc func InfrastructureTapped(){
-        
         self.SearchGenre = "インフラ"
         performSegue(withIdentifier: "SearchResult", sender: nil)
-        
     }
     
     @objc func IotTapped(){
-        
         self.SearchGenre = "IoT"
         performSegue(withIdentifier: "SearchResult", sender: nil)
-        
     }
     
     @objc func WebTapped(){
-        
         self.SearchGenre = "Web"
         performSegue(withIdentifier: "SearchResult", sender: nil)
-        
     }
     
     @objc func AITapped(){
-        
         self.SearchGenre = "Web"
         performSegue(withIdentifier: "SearchResult", sender: nil)
-        
     }
     
     @objc func MobileTapped(){
-        
         self.SearchGenre = "Web"
         performSegue(withIdentifier: "SearchResult", sender: nil)
-        
     }
-    
     
     @objc func QualificationTapped(){
         self.SearchGenre = "資格"
         performSegue(withIdentifier: "SearchResult", sender: nil)
-        
     }
     
     @objc func BarcodeTappend(){
@@ -135,17 +123,6 @@ class SearchBookViewController: UIViewController,UISearchBarDelegate {
         }
     }
     
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
-        SearchGenre = ""
-        getDB()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
-    }
-    
     @IBAction func SearchButton(_ sender: Any) {
         getDB()
     }
@@ -162,6 +139,18 @@ class SearchBookViewController: UIViewController,UISearchBarDelegate {
         }
     }
     
+}
+
+extension SearchBookViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        SearchGenre = ""
+        getDB()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
 }
 
 

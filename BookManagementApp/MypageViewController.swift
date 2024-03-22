@@ -10,15 +10,11 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 
-class MypageViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
+class MypageViewController: UIViewController {
 
-    
-    
-    
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var BookView: UICollectionView!
     @IBOutlet weak var profileName: UILabel!
-    
     @IBOutlet weak var mailText: UILabel!
     
     let user = Auth.auth().currentUser
@@ -64,45 +60,7 @@ class MypageViewController: UIViewController,UICollectionViewDelegate,UICollecti
             }
         }.resume()
     }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return documents.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = BookView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath) as! BookCollectionViewCell
-        
-        cell.BookImage.image = UIImage(systemName: "book")
-        
-        let data = documents[indexPath.row].data()
-        self.documentID = documents[indexPath.row].documentID
-        cell.BookTitle.text = data?["title"] as? String
-        cell.BookGenre.text = data?["genre"] as? String
-        
-        let gsReference = storage.reference(withPath: "gs://[BookApp].appspot.com/test/\(documentID).png")
-        gsReference.getData(maxSize:  1 * 1024 * 1024) { Data, Error in
-            if let Error = Error {
-                print(Error)
-            }else{
-                cell.BookImage.image = UIImage(data: Data!)
-            }
-        }
-        
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let selectedCell = BookView.cellForItem(at: indexPath) as? BookCollectionViewCell{
-            self.BookTitle = selectedCell.BookTitle.text!
-        }
-        performSegue(withIdentifier: BookIdentifer , sender: nil)
-    }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "BookLent" {
             let VC = segue.destination as? BookLentViewController
@@ -166,7 +124,6 @@ class MypageViewController: UIViewController,UICollectionViewDelegate,UICollecti
         BookView.refreshControl?.endRefreshing()
     }
     
-    
     @IBAction func logoutButton(_ sender: Any) {
         do {
             try Auth.auth().signOut()
@@ -176,6 +133,51 @@ class MypageViewController: UIViewController,UICollectionViewDelegate,UICollecti
         }
     }
     
+}
+
+extension MypageViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return documents.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = BookView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath) as! BookCollectionViewCell
+        
+        cell.BookImage.image = UIImage(systemName: "book")
+        
+        let data = documents[indexPath.row].data()
+        self.documentID = documents[indexPath.row].documentID
+        cell.BookTitle.text = data?["title"] as? String
+        cell.BookGenre.text = data?["genre"] as? String
+        
+        let gsReference = storage.reference(withPath: "gs://[BookApp].appspot.com/test/\(documentID).png")
+        gsReference.getData(maxSize:  1 * 1024 * 1024) { Data, Error in
+            if let Error = Error {
+                print(Error)
+            }else{
+                cell.BookImage.image = UIImage(data: Data!)
+                cell.BookImage.alpha = 0.0
+                UIView.animate(withDuration: 1.5) {
+                    cell.BookImage.alpha = 1.0
+                }
+            }
+        }
+        
+        return cell
+    }
+}
+
+extension MypageViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let selectedCell = BookView.cellForItem(at: indexPath) as? BookCollectionViewCell{
+            self.BookTitle = selectedCell.BookTitle.text!
+        }
+        performSegue(withIdentifier: BookIdentifer , sender: nil)
+    }
 }
 
 

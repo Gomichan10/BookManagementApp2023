@@ -12,8 +12,6 @@ import FirebaseFirestore
 
 class BookLentViewController: UIViewController {
     
-    
-    
     @IBOutlet weak var BookName: UILabel!
     @IBOutlet weak var BookTitle: UILabel!
     @IBOutlet weak var AuthorName: UILabel!
@@ -40,7 +38,6 @@ class BookLentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getDocument()
-
     }
     
 
@@ -58,7 +55,6 @@ class BookLentViewController: UIViewController {
                 self.setBook(documentID: document.documentID)
             }
         }
-        
     }
     
     func setBook(documentID:String){
@@ -92,7 +88,6 @@ class BookLentViewController: UIViewController {
         return df.string(from: addingdate)
     }
     
-    
     @IBAction func LentButton(_ sender: Any) {
         setName()
         dismiss(animated: true)
@@ -102,6 +97,4 @@ class BookLentViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    
-
 }

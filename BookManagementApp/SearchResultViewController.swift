@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-class SearchResultViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class SearchResultViewController: UIViewController {
 
     
     @IBOutlet weak var ResultBookTable: UITableView!
@@ -26,7 +26,6 @@ class SearchResultViewController: UIViewController,UITableViewDelegate,UITableVi
     let db = Firestore.firestore()
     let storage = Storage.storage()
     var reference:StorageReference
-    
     
     required init?(coder aDecoder: NSCoder) {
         self.reference = self.storage.reference()
@@ -50,40 +49,6 @@ class SearchResultViewController: UIViewController,UITableViewDelegate,UITableVi
         
     }
     
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return documents.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = ResultBookTable.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! ResultBookTableViewCell
-        
-        
-        let data = documents[indexPath.row].data()
-        self.documentID = documents[indexPath.row].documentID
-        cell.BookTitle.text = data?["title"] as? String
-        cell.AuthorText.text = data?["author"] as? String
-        cell.GenreText.text = data?["genre"] as? String
-        ResultCount.text = "\(documents.count)件"
-        
-        let gsReference = storage.reference(withPath: "gs://[BookApp].appspot.com/test/\(documentID).png")
-        gsReference.getData(maxSize:  1 * 1024 * 1024) { Data, Error in
-            if let Error = Error {
-                print(Error)
-            }else{
-                cell.BookImage.image = UIImage(data: Data!)
-            }
-        }
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let selectedCell = ResultBookTable.cellForRow(at: indexPath) as? ResultBookTableViewCell {
-            self.bookTitle = selectedCell.BookTitle.text!
-            performSegue(withIdentifier: "bookLend", sender: nil)
-        }
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "bookLend" {
@@ -127,9 +92,48 @@ class SearchResultViewController: UIViewController,UITableViewDelegate,UITableVi
         }
     }
     
-    
     @IBAction func BackButton(_ sender: Any) {
         dismiss(animated: true)
     }
 
+}
+
+extension SearchResultViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return documents.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = ResultBookTable.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! ResultBookTableViewCell
+        
+        let data = documents[indexPath.row].data()
+        self.documentID = documents[indexPath.row].documentID
+        cell.BookTitle.text = data?["title"] as? String
+        cell.AuthorText.text = data?["author"] as? String
+        cell.GenreText.text = data?["genre"] as? String
+        ResultCount.text = "\(documents.count)件"
+        
+        let gsReference = storage.reference(withPath: "gs://[BookApp].appspot.com/test/\(documentID).png")
+        gsReference.getData(maxSize:  1 * 1024 * 1024) { Data, Error in
+            if let Error = Error {
+                print(Error)
+            }else{
+                cell.BookImage.image = UIImage(data: Data!)
+                cell.BookImage.alpha = 0.0
+                UIView.animate(withDuration: 1.5) {
+                    cell.BookImage.alpha = 1.0
+                }
+            }
+        }
+        return cell
+    }
+}
+
+extension SearchResultViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let selectedCell = ResultBookTable.cellForRow(at: indexPath) as? ResultBookTableViewCell {
+            self.bookTitle = selectedCell.BookTitle.text!
+            performSegue(withIdentifier: "bookLend", sender: nil)
+        }
+    }
 }

@@ -131,8 +131,6 @@ class BarcodeViewController: UIViewController {
             print(error.localizedDescription)
         }
         
-        
-        
     }
 
     @objc func LabelTapped(){

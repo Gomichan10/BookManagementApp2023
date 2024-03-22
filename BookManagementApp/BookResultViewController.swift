@@ -85,7 +85,6 @@ class BookResultViewController: UIViewController {
         
         print(book)
         
-        
         bookTitle.text! = book.title
         bookGenre.text! = book.categories?[0] ?? "No Categories"
         bookAuthor.text! = book.authors?[0] ?? "No Authors"

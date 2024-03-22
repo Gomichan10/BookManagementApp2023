@@ -8,15 +8,13 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
 
 
-
-class BookViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate{
-    
+class BookViewController: UIViewController{
     
 
     @IBOutlet weak var BookView: UICollectionView!
-    
     @IBOutlet weak var itpasImage: UIImageView!
     @IBOutlet weak var ouyouImage: UIImageView!
     @IBOutlet weak var AWSImage: UIImageView!
@@ -71,81 +69,49 @@ class BookViewController: UIViewController,UICollectionViewDelegate,UICollection
     }
     
     @objc func itpasTapped(){
-        
         BookTitle = "ITパスポート"
         performSegue(withIdentifier: "BookLend", sender: nil)
-        
     }
     
     @objc func ouyouTapped(){
-        
         BookTitle = "応用情報技術者試験"
         performSegue(withIdentifier: "BookLend", sender: nil)
-        
     }
     
     @objc func awsTapped(){
-        
         BookTitle = "AWS"
         performSegue(withIdentifier: "BookLend", sender: nil)
-        
     }
-    
-    
     
     override func viewDidAppear(_ animated: Bool) {
-
         print(documentCount)
-    }
-    
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return documents.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = BookView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath) as! BookCollectionViewCell
-        
-        cell.BookImage.image = UIImage(systemName: "book")
-        
-        let data = documents[indexPath.row].data()
-        self.documentID = documents[indexPath.row].documentID
-        cell.BookTitle.text = data?["title"] as? String
-        cell.BookGenre.text = data?["genre"] as? String
-        
-        let gsReference = storage.reference(withPath: "gs://[BookApp].appspot.com/test/\(documentID).png")
-        gsReference.getData(maxSize:  1 * 1024 * 1024) { Data, Error in
-            if let Error = Error {
-                print(Error)
-            }else{
-                cell.BookImage.image = UIImage(data: Data!)
-            }
-        }
-        
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let selectedCell = BookView.cellForItem(at: indexPath) as? BookCollectionViewCell{
-            self.BookTitle = selectedCell.BookTitle.text!
-        }
-        performSegue(withIdentifier: "BookLend", sender: nil)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let currentPage = Int(round(scrollView.contentOffset.x / scrollView.frame.width))
-        pageControl.currentPage = currentPage
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "BookLend" {
             let VC = segue.destination as? BookLendViewController
             VC?.BookTitleText = self.BookTitle
+        }
+        if segue.identifier == "BookLent" {
+            let VC = segue.destination as? BookLentViewController
+            VC?.BookTitleText = self.BookTitle
+        }
+    }
+    
+    //選択した本が現在自分が借りているものかチェックする関数
+    func checkLent(BookTitle: String) {
+        db.collection("Book").whereField("title", isEqualTo: BookTitle).getDocuments { querySnapshot, error in
+            if let error = error {
+                print(error)
+            }
+            for document in querySnapshot!.documents {
+                print(Auth.auth().currentUser!.uid,document["lend"] as! String)
+                if Auth.auth().currentUser!.uid == document["lend"] as! String {
+                    self.performSegue(withIdentifier: "BookLent", sender: nil)
+                } else {
+                    self.performSegue(withIdentifier: "BookLend", sender: nil)
+                }
+            }
         }
     }
     
@@ -180,8 +146,54 @@ class BookViewController: UIViewController,UICollectionViewDelegate,UICollection
         getDocuments()
         BookView.refreshControl?.endRefreshing()
     }
-    
-    
-    
 
+}
+
+extension BookViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return documents.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = BookView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath) as! BookCollectionViewCell
+        
+        cell.BookImage.image = UIImage(systemName: "book")
+        
+        let data = documents[indexPath.row].data()
+        self.documentID = documents[indexPath.row].documentID
+        cell.BookTitle.text = data?["title"] as? String
+        cell.BookGenre.text = data?["genre"] as? String
+        
+        let gsReference = storage.reference(withPath: "gs://[BookApp].appspot.com/test/\(documentID).png")
+        gsReference.getData(maxSize:  1 * 1024 * 1024) { Data, Error in
+            if let Error = Error {
+                print(Error)
+            }else{
+                cell.BookImage.image = UIImage(data: Data!)
+                cell.BookImage.alpha = 0.0
+                UIView.animate(withDuration: 1.5) {
+                    cell.BookImage.alpha = 1.0
+                }
+            }
+        }
+        return cell
+    }
+}
+
+extension BookViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let selectedCell = BookView.cellForItem(at: indexPath) as? BookCollectionViewCell{
+            self.BookTitle = selectedCell.BookTitle.text!
+        }
+        checkLent(BookTitle: self.BookTitle)
+    }
+}
+
+extension BookViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentPage = Int(round(scrollView.contentOffset.x / scrollView.frame.width))
+        pageControl.currentPage = currentPage
+    }
 }
